@@ -1,462 +1,227 @@
-Contribution: 2020-09-19 20:00
+[![npm](https://img.shields.io/npm/v/@nomiclabs/hardhat-etherscan.svg)](https://www.npmjs.com/package/@nomiclabs/hardhat-etherscan) [![hardhat](https://hardhat.org/buidler-plugin-badge.svg?1)](https://hardhat.org)
 
-Contribution: 2020-09-19 20:01
+# hardhat-etherscan
 
-Contribution: 2020-09-19 20:02
+[Hardhat](https://hardhat.org) plugin for integration with [Etherscan](https://etherscan.io)'s contract verification service.
 
-Contribution: 2020-09-19 20:03
+## What
 
-Contribution: 2020-09-19 20:04
+This plugin helps you verify the source code for your Solidity contracts on [Etherscan](https://etherscan.io).
 
-Contribution: 2020-09-19 20:05
+It's smart and it tries to do as much as possible to facilitate the process:
 
-Contribution: 2020-09-19 20:06
+- Just provide the deployment address and constructor arguments, and the plugin will detect locally which contract to verify.
+- If your contract uses Solidity libraries, the plugin will detect them and deal with them automatically. You don't need to do anything about them.
+- A simulation of the verification process will run locally, allowing the plugin to detect and communicate any mistakes during the process.
+- Once the simulation is successful the contract will be verified using the Etherscan API.
 
-Contribution: 2020-09-19 20:07
+## Installation
 
-Contribution: 2020-09-19 20:08
+```bash
+npm install --save-dev @nomiclabs/hardhat-etherscan
+```
 
-Contribution: 2020-09-22 20:00
+And add the following statement to your `hardhat.config.js`:
 
-Contribution: 2020-09-22 20:01
+```js
+require("@nomiclabs/hardhat-etherscan");
+```
 
-Contribution: 2020-09-24 20:00
+Or, if you are using TypeScript, add this to your `hardhat.config.ts`:
 
-Contribution: 2020-09-24 20:01
+```js
+import "@nomiclabs/hardhat-etherscan";
+```
 
-Contribution: 2020-09-24 20:02
+## Tasks
 
-Contribution: 2020-09-24 20:03
+This plugin provides the `verify` task, which allows you to verify contracts through Etherscan's service.
 
-Contribution: 2020-09-24 20:04
+## Environment extensions
 
-Contribution: 2020-09-24 20:05
+This plugin does not extend the environment.
 
-Contribution: 2020-09-24 20:06
+## Usage
 
-Contribution: 2020-09-24 20:07
+You need to add the following Etherscan config to your `hardhat.config.js` file:
 
-Contribution: 2020-09-24 20:08
+```js
+module.exports = {
+  networks: {
+    mainnet: { ... }
+  },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    apiKey: "YOUR_ETHERSCAN_API_KEY"
+  }
+};
+```
 
-Contribution: 2020-09-24 20:09
+Alternatively you can specify more than one block explorer API key, by passing an object under the `apiKey` property, see [`Multiple API keys and alternative block explorers`](#multiple-api-keys-and-alternative-block-explorers).
 
-Contribution: 2020-09-24 20:10
+Lastly, run the `verify` task, passing the address of the contract, the network where it's deployed, and the constructor arguments that were used to deploy it (if any):
 
-Contribution: 2020-09-24 20:11
-
-Contribution: 2020-09-24 20:12
-
-Contribution: 2020-09-24 20:13
-
-Contribution: 2020-09-24 20:14
-
-Contribution: 2020-09-24 20:15
-
-Contribution: 2020-09-24 20:16
-
-Contribution: 2020-09-24 20:17
-
-Contribution: 2020-09-24 20:18
-
-Contribution: 2020-09-24 20:19
-
-Contribution: 2020-09-25 20:00
-
-Contribution: 2020-09-25 20:01
-
-Contribution: 2020-09-25 20:02
-
-Contribution: 2020-09-25 20:03
-
-Contribution: 2020-09-25 20:04
-
-Contribution: 2020-09-25 20:05
-
-Contribution: 2020-09-25 20:06
-
-Contribution: 2020-09-25 20:07
-
-Contribution: 2020-09-25 20:08
-
-Contribution: 2020-09-25 20:09
-
-Contribution: 2020-09-27 20:00
-
-Contribution: 2020-09-27 20:01
-
-Contribution: 2020-09-27 20:02
-
-Contribution: 2020-09-27 20:03
-
-Contribution: 2020-09-27 20:04
-
-Contribution: 2020-09-27 20:05
-
-Contribution: 2020-09-27 20:06
-
-Contribution: 2020-09-27 20:07
-
-Contribution: 2020-09-27 20:08
-
-Contribution: 2020-09-27 20:09
-
-Contribution: 2020-09-27 20:10
-
-Contribution: 2020-09-27 20:11
-
-Contribution: 2020-09-27 20:12
-
-Contribution: 2020-09-27 20:13
-
-Contribution: 2020-09-27 20:14
-
-Contribution: 2020-09-27 20:15
-
-Contribution: 2020-09-27 20:16
-
-Contribution: 2020-09-28 20:00
-
-Contribution: 2020-09-29 20:00
-
-Contribution: 2020-09-29 20:01
-
-Contribution: 2020-09-29 20:02
-
-Contribution: 2020-09-29 20:03
-
-Contribution: 2020-09-29 20:04
-
-Contribution: 2020-09-29 20:05
-
-Contribution: 2020-09-29 20:06
-
-Contribution: 2020-09-29 20:07
-
-Contribution: 2020-09-29 20:08
-
-Contribution: 2020-09-29 20:09
-
-Contribution: 2020-10-01 20:00
-
-Contribution: 2020-10-03 20:00
-
-Contribution: 2020-10-03 20:01
-
-Contribution: 2020-10-03 20:02
-
-Contribution: 2020-10-03 20:03
-
-Contribution: 2020-10-03 20:04
-
-Contribution: 2020-10-03 20:05
-
-Contribution: 2020-10-03 20:06
-
-Contribution: 2020-10-03 20:07
-
-Contribution: 2020-10-03 20:08
-
-Contribution: 2020-10-03 20:09
-
-Contribution: 2020-10-03 20:10
-
-Contribution: 2020-10-03 20:11
-
-Contribution: 2020-10-03 20:12
-
-Contribution: 2020-10-03 20:13
-
-Contribution: 2020-10-03 20:14
-
-Contribution: 2020-10-03 20:15
-
-Contribution: 2020-10-03 20:16
-
-Contribution: 2020-10-03 20:17
-
-Contribution: 2020-10-03 20:18
-
-Contribution: 2020-10-03 20:19
-
-Contribution: 2020-10-06 20:00
-
-Contribution: 2020-10-06 20:01
-
-Contribution: 2020-10-06 20:02
-
-Contribution: 2020-10-07 20:00
-
-Contribution: 2020-10-08 20:00
-
-Contribution: 2020-10-08 20:01
-
-Contribution: 2020-10-08 20:02
-
-Contribution: 2020-10-08 20:03
-
-Contribution: 2020-10-08 20:04
-
-Contribution: 2020-10-08 20:05
-
-Contribution: 2020-10-08 20:06
-
-Contribution: 2020-10-08 20:07
-
-Contribution: 2020-10-08 20:08
-
-Contribution: 2020-10-08 20:09
-
-Contribution: 2020-10-08 20:10
-
-Contribution: 2020-10-08 20:11
-
-Contribution: 2020-10-08 20:12
-
-Contribution: 2020-10-08 20:13
-
-Contribution: 2020-10-08 20:14
-
-Contribution: 2020-10-08 20:15
-
-Contribution: 2020-10-08 20:16
-
-Contribution: 2020-10-08 20:17
-
-Contribution: 2020-10-10 20:00
-
-Contribution: 2020-10-10 20:01
-
-Contribution: 2020-10-10 20:02
-
-Contribution: 2020-10-10 20:03
-
-Contribution: 2020-10-10 20:04
-
-Contribution: 2020-10-10 20:05
-
-Contribution: 2020-10-12 20:00
-
-Contribution: 2020-10-12 20:01
-
-Contribution: 2020-10-12 20:02
-
-Contribution: 2020-10-12 20:03
-
-Contribution: 2020-10-12 20:04
-
-Contribution: 2020-10-12 20:05
-
-Contribution: 2020-10-12 20:06
-
-Contribution: 2020-10-12 20:07
-
-Contribution: 2020-10-12 20:08
-
-Contribution: 2020-10-12 20:09
-
-Contribution: 2020-10-12 20:10
-
-Contribution: 2020-10-12 20:11
-
-Contribution: 2020-10-12 20:12
-
-Contribution: 2020-10-12 20:13
-
-Contribution: 2020-10-12 20:14
-
-Contribution: 2020-10-12 20:15
-
-Contribution: 2020-10-12 20:16
-
-Contribution: 2020-10-18 20:00
-
-Contribution: 2020-10-18 20:01
-
-Contribution: 2020-10-18 20:02
-
-Contribution: 2020-10-18 20:03
-
-Contribution: 2020-10-18 20:04
-
-Contribution: 2020-10-18 20:05
-
-Contribution: 2020-10-18 20:06
-
-Contribution: 2020-10-18 20:07
-
-Contribution: 2020-10-18 20:08
-
-Contribution: 2020-10-18 20:09
-
-Contribution: 2020-10-18 20:10
-
-Contribution: 2020-10-18 20:11
-
-Contribution: 2020-10-18 20:12
-
-Contribution: 2020-10-18 20:13
-
-Contribution: 2020-10-18 20:14
-
-Contribution: 2020-10-18 20:15
-
-Contribution: 2020-10-18 20:16
-
-Contribution: 2020-10-18 20:17
-
-Contribution: 2020-10-19 20:00
-
-Contribution: 2020-10-19 20:01
-
-Contribution: 2020-10-19 20:02
-
-Contribution: 2020-10-19 20:03
-
-Contribution: 2020-10-19 20:04
-
-Contribution: 2020-10-19 20:05
-
-Contribution: 2020-10-19 20:06
-
-Contribution: 2020-10-19 20:07
-
-Contribution: 2020-10-19 20:08
-
-Contribution: 2020-10-20 20:00
-
-Contribution: 2020-10-20 20:01
-
-Contribution: 2020-10-20 20:02
-
-Contribution: 2020-10-20 20:03
-
-Contribution: 2020-10-20 20:04
-
-Contribution: 2020-10-20 20:05
-
-Contribution: 2020-10-20 20:06
-
-Contribution: 2020-10-20 20:07
-
-Contribution: 2020-10-20 20:08
-
-Contribution: 2020-10-20 20:09
-
-Contribution: 2020-10-20 20:10
-
-Contribution: 2020-10-20 20:11
-
-Contribution: 2020-10-20 20:12
-
-Contribution: 2020-10-20 20:13
-
-Contribution: 2020-10-20 20:14
-
-Contribution: 2020-10-20 20:15
-
-Contribution: 2020-10-20 20:16
-
-Contribution: 2020-10-20 20:17
-
-Contribution: 2020-10-20 20:18
-
-Contribution: 2020-10-20 20:19
-
-Contribution: 2020-10-21 20:00
-
-Contribution: 2020-10-21 20:01
-
-Contribution: 2020-10-21 20:02
-
-Contribution: 2020-10-21 20:03
-
-Contribution: 2020-10-21 20:04
-
-Contribution: 2020-10-21 20:05
-
-Contribution: 2020-10-21 20:06
-
-Contribution: 2020-10-21 20:07
-
-Contribution: 2020-10-21 20:08
-
-Contribution: 2020-10-21 20:09
-
-Contribution: 2020-10-21 20:10
-
-Contribution: 2020-10-21 20:11
-
-Contribution: 2020-10-21 20:12
-
-Contribution: 2020-10-21 20:13
-
-Contribution: 2020-10-21 20:14
-
-Contribution: 2020-10-21 20:15
-
-Contribution: 2020-10-21 20:16
-
-Contribution: 2020-10-21 20:17
-
-Contribution: 2020-10-22 20:00
-
-Contribution: 2020-10-22 20:01
-
-Contribution: 2020-10-22 20:02
-
-Contribution: 2020-10-22 20:03
-
-Contribution: 2020-10-22 20:04
-
-Contribution: 2020-10-24 20:00
-
-Contribution: 2020-10-24 20:01
-
-Contribution: 2020-10-24 20:02
-
-Contribution: 2020-10-25 20:00
-
-Contribution: 2020-10-25 20:01
-
-Contribution: 2020-10-25 20:02
-
-Contribution: 2020-10-25 20:03
-
-Contribution: 2020-10-29 20:00
-
-Contribution: 2020-10-29 20:01
-
-Contribution: 2020-10-30 20:00
-
-Contribution: 2020-10-30 20:01
-
-Contribution: 2020-10-30 20:02
-
-Contribution: 2020-10-30 20:03
-
-Contribution: 2020-10-30 20:04
-
-Contribution: 2020-10-30 20:05
-
-Contribution: 2020-10-30 20:06
-
-Contribution: 2020-10-30 20:07
-
-Contribution: 2020-10-30 20:08
-
-Contribution: 2020-10-30 20:09
-
-Contribution: 2020-10-30 20:10
-
-Contribution: 2020-10-30 20:11
-
-Contribution: 2020-10-30 20:12
-
-Contribution: 2020-10-30 20:13
-
-Contribution: 2020-10-30 20:14
-
-Contribution: 2020-11-01 20:00
-
-Contribution: 2020-11-01 20:01
-
+```bash
+npx hardhat verify --network mainnet DEPLOYED_CONTRACT_ADDRESS "Constructor argument 1"
+```
+
+### Complex arguments
+
+When the constructor has a complex argument list, you'll need to write a javascript module that exports the argument list. The expected format is the same as a constructor list for an [ethers contract](https://docs.ethers.io/v5/api/contract/). For example, if you have a contract like this:
+
+```solidity
+struct Point {
+  uint x;
+  uint y;
+}
+
+contract Foo {
+  constructor (uint x, string s, Point memory point, bytes b) { ... }
+}
+```
+
+then you can use an `arguments.js` file like this:
+
+```js
+module.exports = [
+  50,
+  "a string argument",
+  {
+    x: 10,
+    y: 5,
+  },
+  // bytes have to be 0x-prefixed
+  "0xabcdef",
+];
+```
+
+Where the third argument represents the value for the `point` parameter.
+
+The module can then be loaded by the `verify` task when invoked like this:
+
+```bash
+npx hardhat verify --constructor-args arguments.js DEPLOYED_CONTRACT_ADDRESS
+```
+
+### Libraries with undetectable addresses
+
+Some library addresses are undetectable. If your contract uses a library only in the constructor, then its address cannot be found in the deployed bytecode.
+
+To supply these missing addresses, you can create a javascript module that exports a library dictionary and pass it through the `--libraries` parameter:
+
+```bash
+hardhat verify --libraries libraries.js OTHER_ARGS
+```
+
+where `libraries.js` looks like this:
+
+```js
+module.exports = {
+  SomeLibrary: "0x...",
+};
+```
+
+### Multiple API keys and alternative block explorers
+
+If your project targets multiple EVM-compatible networks that have different explorers, you'll need to set multiple API keys.
+
+To configure the API keys for the chains you are using, provide an object under `etherscan/apiKey` with the identifier of each chain as the key. **This is not necessarily the same name that you are using to define the network**. The snippet below shows the values you should use for each chain:
+
+```js
+module.exports = {
+  networks: {
+    mainnet: { ... },
+    testnet: { ... }
+  },
+  etherscan: {
+    apiKey: {
+        mainnet: "YOUR_ETHERSCAN_API_KEY",
+        ropsten: "YOUR_ETHERSCAN_API_KEY",
+        rinkeby: "YOUR_ETHERSCAN_API_KEY",
+        goerli: "YOUR_ETHERSCAN_API_KEY",
+        kovan: "YOUR_ETHERSCAN_API_KEY",
+        // binance smart chain
+        bsc: "YOUR_BSCSCAN_API_KEY",
+        bscTestnet: "YOUR_BSCSCAN_API_KEY",
+        // huobi eco chain
+        heco: "YOUR_HECOINFO_API_KEY",
+        hecoTestnet: "YOUR_HECOINFO_API_KEY",
+        // fantom mainnet
+        opera: "YOUR_FTMSCAN_API_KEY",
+        ftmTestnet: "YOUR_FTMSCAN_API_KEY",
+        // optimism
+        optimisticEthereum: "YOUR_OPTIMISTIC_ETHERSCAN_API_KEY",
+        optimisticKovan: "YOUR_OPTIMISTIC_ETHERSCAN_API_KEY",
+        // polygon
+        polygon: "YOUR_POLYGONSCAN_API_KEY",
+        polygonMumbai: "YOUR_POLYGONSCAN_API_KEY",
+        // arbitrum
+        arbitrumOne: "YOUR_ARBISCAN_API_KEY",
+        arbitrumTestnet: "YOUR_ARBISCAN_API_KEY",
+        // avalanche
+        avalanche: "YOUR_SNOWTRACE_API_KEY",
+        avalancheFujiTestnet: "YOUR_SNOWTRACE_API_KEY",
+        // moonbeam
+        moonbeam: "YOUR_MOONBEAM_MOONSCAN_API_KEY"
+        moonriver: "YOUR_MOONRIVER_MOONSCAN_API_KEY",
+        moonbaseAlpha: "YOUR_MOONBEAM_MOONSCAN_API_KEY",
+        // harmony
+        harmony: "YOUR_HARMONY_API_KEY",
+        harmonyTest: "YOUR_HARMONY_API_KEY",
+        // xdai and sokol don't need an API key, but you still need
+        // to specify one; any string placeholder will work
+        xdai: "api-key",
+        sokol: "api-key",
+        aurora: "api-key",
+        auroraTestnet: "api-key",
+    }
+  }
+};
+```
+
+### Using programmatically
+
+To call the verification task from within a Hardhat task or script, use the `"verify:verify"` subtask. Assuming the same contract as [above](#complex-arguments), you can run the subtask like this:
+
+```js
+await hre.run("verify:verify", {
+  address: contractAddress,
+  constructorArguments: [
+    50,
+    "a string argument",
+    {
+      x: 10,
+      y: 5,
+    },
+    "0xabcdef",
+  ],
+});
+```
+
+If the verification is not successful, an error will be thrown.
+
+#### Providing libraries from a script or task
+
+If your contract has libraries with undetectable addresses, you may pass the libraries parameter with a dictionary specifying them:
+
+```js
+hre.run("verify:verify", {
+  // other args
+  libraries: {
+    SomeLibrary: "0x...",
+  }
+}
+```
+
+## How it works
+
+The plugin works by fetching the bytecode in the given address and using it to check which contract in your project corresponds to it. Besides that, some sanity checks are performed locally to make sure that the verification won't fail.
+
+## Known limitations
+
+- Adding, removing, moving or renaming new contracts to the hardhat project or reorganizing the directory structure of contracts after deployment may alter the resulting bytecode in some solc versions. See this [Solidity issue](https://github.com/ethereum/solidity/issues/9573) for further information.
+
+## Contributing
+
+See the [Contribution Guide](./CONTRIBUTING.md) for details.
